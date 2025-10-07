@@ -37,10 +37,10 @@ BrassI = [.285, .237];
 AluminumI = [.29, .24]; %Current
 SteelI = .203;
 
-A = .0005067; %Cross Sectional Area
+A = .0005067;
 
 BrassSol = (BrassV .* BrassI) ./ (kBrass * A);
-AluminumSol = (AluminumV .* AluminumI) ./ (kAluminum * A);%Sol
+AluminumSol = (AluminumV .* AluminumI) ./ (kAluminum * A);
 SteelSol = (SteelV .* SteelI) ./ (kSteel * A);
 
 
