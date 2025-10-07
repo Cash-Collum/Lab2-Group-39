@@ -14,16 +14,17 @@ Steel22V = dataProcessor(Steel22V);
 
 
 numchannels = width(Aluminum25V);
-spaceBtwn = 0.0127; %m
-startSpace = 0.0762; %m
-endSpace = 0.0254; %m
-bandHeater = 0.0254; %m
-diameter = 0.0254; %m
-x0 = 0.0349; %m
+%measured in meters
+spaceBtwn = 0.0127; 
+startSpace = 0.0762; 
+endSpace = 0.0254; 
+bandHeater = 0.0254; 
+diameter = 0.0254; 
+x0 = 0.0349; 
 
-channelLocations = zeros(1,7);
+channelLocations = zeros(1,8);
 
-for i = 1:numchannels-1
+for i = 1:numchannels
     channelLocations(i) = startSpace + spaceBtwn*i;
 end
 
