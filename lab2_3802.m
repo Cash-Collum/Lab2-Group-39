@@ -28,11 +28,12 @@ for i = 1:numchannels
     channelLocations(i) = startSpace + spaceBtwn*i;
 end
 
-plotting(Aluminum25V,x0,channelLocations,"Aluminum-25V-240mA");
-plotting(Aluminum30V,x0,channelLocations,"Aluminum-30V-290mA");
-plotting(Brass25V,x0,channelLocations,"Brass-25V-237mA");
-plotting(Brass30V,x0,channelLocations,"Brass-30V-285mA");
-plotting(Steel22V,x0,channelLocations,"Steel-22V-203mA");
+
+[AlSteady1,AlInit1,Alx11,Aly11,Alx21,Aly21] = experimental(Aluminum25V,x0,channelLocations,"Aluminum-25V-240mA");
+[AlSteady2,AlInit2,Alx12,Aly12,Alx22,Aly22] = experimental(Aluminum30V,x0,channelLocations,"Aluminum-30V-290mA");
+[BSteady1,BInit1,Bx11,By11,Bx21,By21] = experimental(Brass25V,x0,channelLocations,"Brass-25V-237mA");
+[BSteady2,BInit2,Bx12,By12,Bx22,By22] = experimental(Brass30V,x0,channelLocations,"Brass-30V-285mA");
+[SSteady,SInit,Sx1,Sy1,Sx2,Sy2] = experimental(Steel22V,x0,channelLocations,"Steel-22V-203mA");
 
 %%Find H_analytical
 Aluminumk = 130;
@@ -59,51 +60,23 @@ B2T0 = 13.916;
 A1To = 15.983;
 A2To = 15.741;
 STo = 9.627;
-x = linspace(0, L, 10);
-xTherm = [.034925, 0.047625, 0.060325, 0.073025, 0.085725, 0.098425, 0.111125, 0.123825];
+analytical.x = linspace(0, L, 10);
+analytical.xTherm = [.034925, 0.047625, 0.060325, 0.073025, 0.085725, 0.098425, 0.111125, 0.123825];
 
+Linearbrass1 = HBrass(1) * analytical.x + To;
+Rawbrass1 = HBrass(1).*analytical.xTherm + To;
+Linearbrass2 = HBrass(2) * analytical.x + B2T0;
+Rawbrass2 = HBrass(2).*analytical.xTherm + B2T0;
+LinearAluminum1 = HAluminum(1) * analytical.x + A1To;
+RawAluminum1 = HAluminum(1).*analytical.xTherm + A1To;
+LinearAluminum2 = HAluminum(2) * analytical.x + A2To;
+RawAluminum2 = HAluminum(2).*analytical.xTherm + A2To;
+LinearSteel1 = HSteel * analytical.x + STo;
+RawSteel1 = HSteel.*analytical.xTherm + STo;
 
-
-figure();
-plot(x,HBrass(1) * x + To); hold on; grid on;
-scatter(xTherm, HBrass(1).*xTherm + To);
-title('Brass-25V-237mA');
-legend('Brass at 25 V and 237mA', 'Location of thermocouples');
-xlabel('Location(m)');
-ylabel('Temperature(deg C)');
-
-figure();
-plot(x,HBrass(2) * x + B2T0); hold on; grid on;
-scatter(xTherm, HBrass(2).*xTherm + B2T0);
-title('Brass-30V-285mA');
-legend('Brass at 30 V and 285mA', 'Location of thermocouples');
-xlabel('Location(m)');
-ylabel('Temperature(deg C)');
-
-figure();
-plot(x,HAluminum(1) * x + A1To); hold on; grid on;
-scatter(xTherm, HAluminum(1).*xTherm + A1To);
-title('Aluminum-25V-240mA');
-legend('Aluminum at 25 V and 240mA', 'Location of thermocouples');
-xlabel('Location(m)');
-ylabel('Temperature(deg C)');
-
-figure();
-plot(x,HAluminum(2) * x + A2To); hold on; grid on;
-scatter(xTherm, HAluminum(2).*xTherm + A2To);
-title('Aluminum-30V-290mA');
-legend('Aluminum at 30 V and 290mA', 'Location of thermocouples');
-xlabel('Location(m)');
-ylabel('Temperature(deg C)');
-
-figure();
-plot(x,HSteel * x + STo); hold on; grid on;
-scatter(xTherm, HSteel.*xTherm + STo);
-title('Steel-22V-203mA');
-legend('Steel at 25 V and 237mA', 'Location of thermocouples');
-xlabel('Location(m)');
-ylabel('Temperature(deg C)');
-
-
-
+plotting(AlSteady1,AlInit1,channelLocations,Alx11,Aly11,Alx21,Aly21,analytical,LinearAluminum1,RawAluminum1,"Aluminum-25V-240mA");
+plotting(AlSteady2,AlInit2,channelLocations,Alx12,Aly12,Alx22,Aly22,analytical,LinearAluminum2,RawAluminum2,"Aluminum-30V-290mA");
+plotting(BSteady1,BInit1,channelLocations,Bx11,By11,Bx21,By21,analytical,Linearbrass1,Rawbrass1,"Brass-25V-237mA");
+plotting(BSteady2,BInit2,channelLocations,Bx12,By12,Bx22,By22,analytical,Linearbrass2,Rawbrass2,"Brass-30V-285mA");
+plotting(SSteady,SInit,channelLocations,Sx1,Sy1,Sx2,Sy2,analytical,LinearSteel1,RawSteel1,"Steel-22V-203mA");
 

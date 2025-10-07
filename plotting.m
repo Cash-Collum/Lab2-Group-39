@@ -1,25 +1,30 @@
-function plotting(data,x0,channelLocations,name)
-
-    steadyState = data(end,:);
-    distances = channelLocations;
-
-    p = polyfit(distances,steadyState,1);
-
-    x1 = linspace(0,channelLocations(end));
-    y1 = polyval(p,x1);
-    T0 = polyval(p,x0);
+function plotting(steadyState,initState,distances,x1,y1,x2,y2,analytical,linear,raw,name)
 
     figure()
-    scatter(distances,steadyState);
     hold on;
+    scatter(distances,steadyState);
+    scatter(analytical.xTherm,raw);
     plot(x1,y1);
+    plot(analytical.x,linear);
+    xlabel('Location (m)')
+    ylabel('Temperature (deg C)')
+    legend('EXP Raw Data','AN Raw Data','EXP Linear','AN Linear')
+    title("Steady State: " + name)
+    hold off;
+
+    saveas(gcf, "Steady_State " +name + ".png");
+
+
+    figure()
+    scatter(distances,initState);
+    hold on;
+    plot(x2,y2);
     xlabel('Location (m)')
     ylabel('Temperature (deg C)')
     legend('Raw Data','Best Fit')
-    title(name)
+    title("Initial State: " + name)
 
-    fprintf("For the %s case, T0 = %f \n",name,T0);
-    fprintf("For the %s case, H_exp = %f \n",name,p(1));
+    saveas(gcf, "Initial_State " +name + ".png");
 
 
 end
