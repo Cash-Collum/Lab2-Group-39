@@ -6,11 +6,11 @@ Brass25V = readmatrix("Brass_25V_237mA");
 Brass30V = readmatrix("Brass_30V_285mA");
 Steel22V = readmatrix("Steel_22V_203mA");
 
-Aluminum25V = Aluminum25V(~any(isnan(Aluminum25V), 2), :);
-Aluminum30V = Aluminum30V(~any(isnan(Aluminum25V), 2), :);
-Brass25V = Brass25V(~any(isnan(Brass25V), 2), :);
-Brass30V = Brass30V(~any(isnan(Brass30V), 2), :);
-Steel22V = Steel22V(~any(isnan(Steel22V), 2), :);
+Aluminum25V = dataProcessor(Aluminum25V);
+Aluminum30V = dataProcessor(Aluminum30V);
+Brass25V = dataProcessor(Brass25V);
+Brass30V = dataProcessor(Brass30V);
+Steel22V = dataProcessor(Steel22V);
 
 
 numchannels = width(Aluminum25V);
@@ -21,17 +21,17 @@ bandHeater = 0.0254; %m
 diameter = 0.0254; %m
 x0 = 0.0349; %m
 
-channelLocations = zeros(1,8);
+channelLocations = zeros(1,7);
 
 for i = 1:numchannels-1
     channelLocations(i) = startSpace + spaceBtwn*i;
 end
 
-plotting(Aluminum25V,x0,channelLocations);
-plotting(Aluminum30V,x0,channelLocations);
-plotting(Brass25V,x0,channelLocations);
-plotting(Brass30V,x0,channelLocations);
-plotting(Steel22V,x0,channelLocations);
+plotting(Aluminum25V,x0,channelLocations,"Aluminum-25V-240mA");
+plotting(Aluminum30V,x0,channelLocations,"Aluminum-30V-290mA");
+plotting(Brass25V,x0,channelLocations,"Brass-25V-237mA");
+plotting(Brass30V,x0,channelLocations,"Brass-30V-285mA");
+plotting(Steel22V,x0,channelLocations,"Steel-22V-203mA");
 
 
 
