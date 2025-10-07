@@ -21,27 +21,17 @@ bandHeater = 0.0254; %m
 diameter = 0.0254; %m
 x0 = 0.0349; %m
 
+channelLocations = zeros(1,8);
 
+for i = 1:numchannels-1
+    channelLocations(i) = startSpace + spaceBtwn*i;
+end
 
-%% Analytical Solution
-%Solves for H_analytical
-kAluminum = 130;
-kBrass = 115;  % Thermal Conductivity
-kSteel = 16.2;
-
-BrassV = [25, 30];;
-AluminumV = [25,30]; % Voltage
-SteelV = 22;
-
-BrassI = [.285, .237];
-AluminumI = [.29, .24]; %Current
-SteelI = .203;
-
-A = .0005067; %Cross Sectional Area
-
-BrassSol = (BrassV .* BrassI) ./ (kBrass * A);
-AluminumSol = (AluminumV .* AluminumI) ./ (kAluminum * A);%Sol
-SteelSol = (SteelV .* SteelI) ./ (kSteel * A);
+plotting(Aluminum25V,x0,channelLocations);
+plotting(Aluminum30V,x0,channelLocations);
+plotting(Brass25V,x0,channelLocations);
+plotting(Brass30V,x0,channelLocations);
+plotting(Steel22V,x0,channelLocations);
 
 
 
