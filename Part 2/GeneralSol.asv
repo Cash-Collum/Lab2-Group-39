@@ -1,0 +1,18 @@
+clc;
+clear;
+close all;
+
+n = 1;
+L = 1;
+x = 0.123825;
+lambda = ((2*n - 1) * pi) / (2 * L);
+H = 91.0871;
+T0 = 15.9830;
+
+bn = ((-2 * H) / (lambda*L)) * ((sin(L * lambda) / lambda) - L * cos(L * lambda));
+
+sum = bn * sin(lambda * x)^(-lambda^2 * alpha * t)
+
+u = T0 + H * x + sum;
+
+
