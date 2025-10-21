@@ -80,3 +80,41 @@ plotting(BSteady1,BInit1,channelLocations,Bx11,By11,Bx21,By21,analytical,Linearb
 plotting(BSteady2,BInit2,channelLocations,Bx12,By12,Bx22,By22,analytical,Linearbrass2,Rawbrass2,"Brass-30V-285mA");
 plotting(SSteady,SInit,channelLocations,Sx1,Sy1,Sx2,Sy2,analytical,LinearSteel1,RawSteel1,"Steel-22V-203mA");
 
+%% Part 2
+part2.Han = HAluminum(1);
+part2.T0 = A1To;
+k = 130;
+rho = 2810;
+c_p = 960;
+part2.alpha = k/(rho*c_p);
+part2.x = analytical.xTherm(end);
+
+nequals0 = part2.T0 + (part2.Han*part2.x);
+
+t = 1000;
+lambda = [];
+b = [];
+sums = [];
+
+for n = 1:10
+    lambda(n) = ((2*n-1)*pi)/(2*L);
+    b(n) = ((-1^(n+1)*4*part2.Han*L)/(2*n-1))*(2/((2*n-1)*pi));
+    sums(n) = b(n).*sin(lambda(n).*part2.x).*exp(-lambda(n)^2.*part2.alpha.*t);
+    val = sum(sums);
+    u(n) = val;
+
+end
+
+u = [part2.T0+(part2.Han*part2.x),u];
+
+
+figure()
+plot(linspace(0,10,n+1),u)
+xlabel('N')
+ylabel('Temperature (deg C)')
+title('Temperature convergence at the end of the rod')
+
+%Task2 - Model IA
+
+
+
