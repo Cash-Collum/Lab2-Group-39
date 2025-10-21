@@ -58,3 +58,17 @@ ylabel('Temperature (°C)')
 xlabel('Time (s)')
 title('Temperature vs. Time for Brass 30V 285mA')
 hold off
+
+%% Steel 22V experimental data
+Steel22V = readmatrix("Steel_22V_203mA");
+t = Steel22V(:,1);
+
+figure(5)
+hold on
+for i=2:8
+    plot(t,Steel22V(:,i),'b')
+end;
+ylabel('Temperature (°C)')
+xlabel('Time (s)')
+title('Temperature vs. Time for Steel 22V 203mA')
+hold off
