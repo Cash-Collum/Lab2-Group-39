@@ -22,14 +22,10 @@ TOTAL2 = zeros(1,N);
 lambda1 = zeros(1,N);
 bn1 = zeros(1,N);
 sum1 = zeros(1,N);
-den1 = 0;
-den = 0;
 
 for n = 1:N
 lambda1(n) = ((2*n - 1) * pi) / (2 * L);
 bn1(n) = ((-1)^(n) * (4*H*L)) / (2*n-1) * (2 / ((2*n-1) * pi * pi));
-den1 = ((-1)^(1) * (4*H*L)) / (2*1-1);
-den = 2/((2*1-1)*pi);
 sum1(n) = bn1(n) * sin(lambda1(n)*x) * exp(-lambda1(n)^2 * alpha * t);
 total1 = sum1(n) + total1;
 TOTAL1(n) = total1;
@@ -56,7 +52,7 @@ n = linspace(1,10,10);
 t1 = [start,u1(1)];
 t2 = [start,u2(1)];
 m = linspace (0,1,2);
-
+%
 figure;
 
 plot(n, u1, 'b'); hold on;
@@ -67,10 +63,58 @@ xlabel('Number of iterations');
 ylabel('Temperature approximation (C)');
 legend('t = 1s', 't = 1000s');
 grid on;
-
+%}
 %% Task 2
 
+%Model 1A
+
+
+lambda = zeros(1,N);
+bn = zeros(1,N);
+sum = zeros(1,N);
+tf = 1000;
+total = zeros(1,tf);
+Total = zeros(1,tf);
+
+u = zeros(1,8);
+HAN = [91.0871,132.0763,101.61,146.7295,554.0675];
+HEXP = [55.399,78.553,104.987,150.169,287.308];
+
+for h = 1:length(HAN)
+
+start = T0 + (HAN(h) * x);
+START = T0 + (HEXP(h) * x);
+figure; hold on;
+
+for x = linspace(.0381,L,8)
+    for t = 1:tf
+        TOTAL = 0;
+        TOtAL = 0;
+        for n = 1:N
+            lambda(n) = ((2*n - 1) * pi) / (2 * L);
+            bn(n) = ((-1)^(n) * (4*HAN(h)*L)) / (2*n-1) * (2 / ((2*n-1) * pi * pi));
+            sum(n) = bn(n) * sin(lambda(n)*x) * exp(-lambda(n)^2 * alpha * t);
+            TOTAL = sum(n) + TOTAL;
+
+            Lambda = ((2*n - 1) * pi) / (2 * L);
+            Bn = ((-1)^(n) * (4*HEXP(h)*L)) / (2*n-1) * (2 / ((2*n-1) * pi * pi));
+            Sum = Bn * sin(Lambda*x) * exp(-Lambda^2 * alpha * t);
+            TOtAL = Sum + TOtAL;
+        end
+        total(t) = TOtAL;
+        Total(t) = TOTAL;
+    end
+u = start + total;
+U = START + Total;
+
+time = linspace(1,1000,1000);
+plot(time,u, 'r'); hold on;
+plot(time,U, 'b');
+legend('H_analytical', 'H_Experimental');
 
 
 
+end
 
+
+end
