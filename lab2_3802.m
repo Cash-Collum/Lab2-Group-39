@@ -73,13 +73,13 @@ LinearAluminum2 = HAluminum(2) * analytical.x + A2To;
 RawAluminum2 = HAluminum(2).*analytical.xTherm + A2To;
 LinearSteel1 = HSteel * analytical.x + STo;
 RawSteel1 = HSteel.*analytical.xTherm + STo;
-
+%{
 plotting(AlSteady1,AlInit1,channelLocations,Alx11,Aly11,Alx21,Aly21,analytical,LinearAluminum1,RawAluminum1,"Aluminum-25V-240mA");
 plotting(AlSteady2,AlInit2,channelLocations,Alx12,Aly12,Alx22,Aly22,analytical,LinearAluminum2,RawAluminum2,"Aluminum-30V-290mA");
 plotting(BSteady1,BInit1,channelLocations,Bx11,By11,Bx21,By21,analytical,Linearbrass1,Rawbrass1,"Brass-25V-237mA");
 plotting(BSteady2,BInit2,channelLocations,Bx12,By12,Bx22,By22,analytical,Linearbrass2,Rawbrass2,"Brass-30V-285mA");
 plotting(SSteady,SInit,channelLocations,Sx1,Sy1,Sx2,Sy2,analytical,LinearSteel1,RawSteel1,"Steel-22V-203mA");
-
+%}
 %% Part 2
 part2.Han = HAluminum(1);
 part2.T0 = A1To;
@@ -109,12 +109,37 @@ u = [part2.T0+(part2.Han*part2.x),u];
 
 
 figure()
-plot(linspace(0,10,n+1),u)
+%plot(linspace(0,10,n+1),u)
 xlabel('N')
 ylabel('Temperature (deg C)')
 title('Temperature convergence at the end of the rod')
 
 %Task2 - Model IA
+
+part2.Han = HSteel;
+lambda = [];
+b = [];
+sums = [];
+
+for t = 1:1000
+
+    for n = 1:10
+    lambda(n) = ((2*n-1)*pi)/(2*L);
+    b(n) = ((-1^(n+1)*4*part2.Han*L)/(2*n-1))*(2/((2*n-1)*pi));
+    sums(n) = b(n).*sin(lambda(n).*part2.x).*exp(-lambda(n)^2.*part2.alpha.*t);
+    val = sum(sums);
+    u(n) = val;
+
+    end
+    z(t) = val;
+end
+
+Temp = (HSteel .* analytical.xTherm(1,1) + STo) + z;
+
+t = linspace(0,1000,1000);
+plot(t,Temp);
+
+
 
 
 
