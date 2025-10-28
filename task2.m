@@ -86,6 +86,15 @@ HEXP = [55.399,78.553,104.987,150.169,287.308];
 
 for h = 1:length(HAN)
 
+        %different alpha values for each case/material
+        if h<=2 %aluminum alpha
+            alpha = (k_array(1)/(ro_array(1)*cp_array(1)));
+        elseif h<=4 %brass Alpha
+            alpha = (k_array(2)/(ro_array(2)*cp_array(2)));
+        else %steel alpha
+            alpha = (k_array(3)/(ro_array(3)*cp_array(3)));
+        end
+
 start = T0 + (HAN(h) * x);
 START = T0 + (HEXP(h) * x);
 
@@ -126,5 +135,6 @@ saveas(gcf, ['HAN_Case_' CaseNames{h} '.png']);
 end
 
 end
+
 
 
