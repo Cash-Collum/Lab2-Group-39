@@ -46,9 +46,9 @@ x = .2159;
 H = 91.0871;
 T0 = 15.9830;
 t = 1;
-k = 130;
-ro = 2810;
-cp = 960;
+k_array = [130,115,16.2];
+ro_array = [2810,8500,8000];
+cp_array = [960,380,500];
 alpha = k / (ro * cp);
 total1 = 0;
 total2= 0;
@@ -135,6 +135,7 @@ saveas(gcf, ['Hexp_Case_' CaseNames{h} '.png']);
 end
 
 end
+
 
 
 
