@@ -29,7 +29,7 @@ for j=1:length(Cases)
     ylabel('Temperature (°C)')
     xlabel('Time (s)')
     xlim([0 1000])
-    title(['H_{an} over Experimental data for ', CaseNames{j}])
+    title(['H_{exp} over Experimental data for ', CaseNames{j}])
     %for loop for experimental data
     for i=2:8
         Exper = Cases{j};
@@ -107,20 +107,20 @@ for x = linspace(.0381,L,8)
         total(t) = TOtAL;
         Total(t) = TOTAL;
     end
-u = start + total;
-%U = START + Total;
+%u = start + total;
+U = START + Total;
 
 time = linspace(1,1000,1000);
 
-%figure for H_an
+%figure for H_exp
 figure(h)
 hold on
-plot(time,u, 'r');
-legend('Experimental Data','','','','','','','','H_{an}','Location','best')
+plot(time,U, 'r');
+legend('Experimental Data','','','','','','','','H_{exp}','Location','best')
 hold off
 
 %saving each figure
-saveas(gcf, ['HAN_Case_' CaseNames{h} '.png']);
+saveas(gcf, ['Hexp_Case_' CaseNames{h} '.png']);
 
 
 end
