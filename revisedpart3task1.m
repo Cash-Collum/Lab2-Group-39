@@ -29,7 +29,7 @@ for j=1:length(Cases)
     ylabel('Temperature (°C)')
     xlabel('Time (s)')
     xlim([0 20000])
-    title(['\alpha against \alpha_{adj} for ', CaseNames{j}])
+    title(['\alpha_{adj} for ', CaseNames{j}])
     %for loop for experimental data
     for i=2:9
         Exper = Cases{j};
@@ -56,66 +56,7 @@ lambda1 = zeros(1,N);
 bn1 = zeros(1,N);
 sum1 = zeros(1,N);
 
-%% Task 2 overlay
 
-%Model 1B
-
-lambda = zeros(1,N);
-bn = zeros(1,N);
-sum = zeros(1,N);
-tf = 10000;
-Total = zeros(1,tf);
-
-
-HEXP = [55.399,78.553,104.987,150.169,287.308];
-
-for h = 1:length(HEXP)
-    if h<=2 
-        alpha = (k_array(1)/(ro_array(1)*cp_array(1)));
-    elseif h<=4
-        alpha = (k_array(2)/(ro_array(2)*cp_array(2)));
-    else
-        alpha = (k_array(3)/(ro_array(3)*cp_array(3)));
-    end
-
-    Hexp = HEXP(h);
-    T_0 = T0(h);
-
-
-START = zeros(1,8);
-time = linspace(1,30000,30000);
-
-for q=1:8
-    START(q) = T_0 + (Hexp * x(q));
-
-    for t = 1:length(time)
-        TOTAL = 0;
-        for n = 1:N
-            lambda(n) = ((2*n - 1) * pi) / (2 * L);
-            bn(n) = ((-1)^(n) * (4*Hexp*L)) / (2*n-1) * (2 / ((2*n-1) * pi * pi));
-            sum(n) = bn(n) * sin(lambda(n)*x(q)) * exp(-lambda(n)^2 * alpha * time(t));
-            TOTAL = sum(n) + TOTAL;
-        end
-      
-        Total(t) = TOTAL;
-    end
-U = START(q) + Total;
-
-
-
-%figure for H_exp
-figure(h)
-hold on
-%plot(time,U, 'r'); %Turn on if you want Original Overlay
-hold off
-xlim([0 20000]);
-%saving each figure
-%saveas(gcf, ['Hexp_Case_' CaseNames{h} '.png']);
-
-
-end
-
-end
 
 
 %% Part 3 task 1
@@ -128,6 +69,8 @@ sum = zeros(1,N);
 tf = 30000;
 total = zeros(1,tf);
 Total = zeros(1,tf);
+START = zeros(1,8);
+time = linspace(1,30000,30000);
 
 u = zeros(1,8);
 HAN = [91.0871,132.0763,101.61,146.7295,554.0675];
@@ -188,12 +131,17 @@ U = START(q) + Total;
 figure(h)
 hold on
 plot(time,U, 'g');
+legend('Experimental Data','','','','','','','','\alpha_{adj}','Location','best')
+if h<=4
+    xlim([0 4000])
+else
+    xlim([0 12000])
+end
 hold off
 
-%saving each figure
-%saveas(gcf, ['Hexp_Case_' CaseNames{h} '.png']);
-
-
 end
+
+%saving each figure
+%saveas(gcf, ['Alpha_comparison_' CaseNames{h} '.png']);
 
 end
