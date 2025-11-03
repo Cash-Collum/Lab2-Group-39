@@ -36,7 +36,8 @@ for h = 1:length(HEXP)
             alpha = (k_array(2)/(ro_array(2)*cp_array(2)));
         else %steel alpha
             alpha = (k_array(3)/(ro_array(3)*cp_array(3)));
-        end
+  end
+end
 
 alpha_adjusted = [1.2048, 1.2048,1.7802,1.7802,1.1745];
 alpha_adjusted = alpha_adjusted * (10^-5);
@@ -47,7 +48,6 @@ start = T0 + (HEXP(h) * x);
 
 %for x = linspace(.0381,L,8)
 
-x = zeros(1,8);
 x = linspace(.0381,L,8);
 
 for q = 1:8
@@ -90,7 +90,7 @@ text(4000, 90, ['Tss = ', num2str(tss), ' seconds'], 'HorizontalAlignment', 'rig
 
 Fo(h) = (alpha_adjusted(h) * tss) / (L * L);
 plot(time,u, 'r'); hold on;
-legend('H_Experimental');
+legend('H Experimental');
 
 end
 
