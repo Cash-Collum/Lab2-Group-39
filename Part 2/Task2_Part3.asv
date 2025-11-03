@@ -77,8 +77,8 @@ titleNum = Name_array{h};
 title(titleNum);
 ylim([0,100]);
 xlim([0,tf]);
-text(4000, 90, ['Tss = ', num2str(tss), ' seconds. Fo = ', num2str(Fo(h))], 'HorizontalAlignment', 'right', 'FontSize', 10);
-
+text(4000, 90, ['Tss = ', num2str(tss), ' seconds'], 'HorizontalAlignment', 'right', 'FontSize', 10);
+text(4000, 90, ['Fo = ', num2str(Fo)], 'HorizontalAlignment', 'right', 'FontSize', 10);
 
 
 end
